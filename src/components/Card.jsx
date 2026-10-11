@@ -48,7 +48,7 @@ export default function Card({ id, label, children, peacock = true, className = 
           ))}
         </div>
 
-        <div className="card-garland pointer-events-none absolute top-0 left-[7%] w-[26%] max-w-[280px] select-none opacity-80 sm:w-[22%] sm:opacity-95 lg:w-[18%]">
+        <div className="card-garland pointer-events-none absolute top-0 left-[7%] w-[38%] max-w-[380px] select-none sm:w-[30%] lg:w-[24%]">
           <img src={img('garland.webp')} alt="" aria-hidden="true" className="animate-sway w-full" />
         </div>
         {peacock && (
@@ -56,13 +56,13 @@ export default function Card({ id, label, children, peacock = true, className = 
             src={img('peacock.webp')}
             alt=""
             aria-hidden="true"
-            className="card-peacock pointer-events-none absolute bottom-[calc(-1*var(--bw))] left-[calc(-1*var(--bw))] z-10 w-[36%] max-w-[320px] select-none opacity-50 sm:w-[30%] sm:opacity-85 lg:w-[24%]"
+            className="card-peacock pointer-events-none absolute bottom-[calc(-1*var(--bw))] left-[calc(-1*var(--bw))] z-10 w-[55%] max-w-[460px] select-none sm:w-[44%] lg:w-[31%]"
           />
         )}
 
         <CardContext.Provider value={since}>
           <div
-            className={`relative z-20 flex flex-1 flex-col items-center justify-center px-4 py-12 text-center sm:px-8 sm:py-16 md:px-12 md:py-20 lg:px-16 ${className}`}
+            className={`relative z-20 flex flex-1 flex-col items-center justify-center px-4 pt-14 pb-16 text-center sm:px-10 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 ${className}`}
           >
             <div className="my-auto flex w-full max-w-3xl flex-col items-center">
               {children}

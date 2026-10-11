@@ -8,7 +8,7 @@ export default function Description() {
   return (
     <Card id="union" label={description.title} cornerMantra={mantra.ganesh}>
       <h2 className="font-heading text-2xl font-bold tracking-[0.14em] text-rust uppercase sm:text-3xl lg:text-4xl leading-normal">
-        <SplitText chars={description.title} step={50} />
+        <SplitText chars={description.title} step={80} />
       </h2>
       <Reveal delay={500} className="mt-2 text-center">
         <p className="font-body text-base text-teal-deep italic sm:text-lg font-medium">
