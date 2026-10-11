@@ -147,11 +147,18 @@ export default function EventPage({ event }) {
 
         {/* Description at the end of the page */}
         {event.description && (
-          <Reveal delay={1200} as="footer" className="mt-5 max-w-xl text-center">
-            <Divider className="mb-2.5 text-(--accent)/40" />
-            <p className="font-body text-xs leading-relaxed italic text-(--page-ink) opacity-90 sm:text-sm">
-              {event.description}
-            </p>
+          <Reveal delay={1200} as="footer" className="relative z-20 mt-5 w-full max-w-xl px-2">
+            <div
+              className={`rounded-lg border border-(--accent)/30 px-4 py-2.5 sm:px-6 sm:py-3.5 text-center shadow-xs ${
+                theme.night
+                  ? 'bg-ink/80 text-paper/95 backdrop-blur-md'
+                  : 'bg-paper/90 text-(--page-ink) backdrop-blur-xs'
+              }`}
+            >
+              <p className="font-body text-xs leading-relaxed italic opacity-95 sm:text-sm">
+                {event.description}
+              </p>
+            </div>
           </Reveal>
         )}
       </div>

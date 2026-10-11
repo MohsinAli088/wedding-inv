@@ -31,11 +31,11 @@ export default function Card({ id, label, children, peacock = true, className = 
         }
       >
         {cornerMantra && (
-          <div className="pointer-events-none absolute top-4 right-5 z-20 font-devanagari text-sm font-semibold tracking-wider text-(--accent,var(--color-rust)) select-none sm:top-6 sm:right-8 sm:text-base">
+          <div className="pointer-events-none absolute top-3 right-4 z-20 font-devanagari text-[11px] font-semibold tracking-wider text-(--accent,var(--color-rust)) select-none sm:top-5 sm:right-8 sm:text-sm md:text-base">
             {cornerMantra}
           </div>
         )}
-        {decor && <div className="absolute inset-0 z-[5]">{decor}</div>}
+        {decor && <div className="absolute inset-0 z-[5] overflow-hidden">{decor}</div>}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
           {INK.map((ink, i) => (
             <img
@@ -56,15 +56,15 @@ export default function Card({ id, label, children, peacock = true, className = 
             src={img('peacock.webp')}
             alt=""
             aria-hidden="true"
-            className="card-peacock pointer-events-none absolute bottom-[calc(-1*var(--bw))] left-[calc(-1*var(--bw))] z-10 w-[55%] max-w-[460px] select-none sm:w-[44%] lg:w-[31%]"
+            className="card-peacock pointer-events-none absolute bottom-[calc(-1*var(--bw))] left-[calc(-1*var(--bw))] z-10 w-[42%] max-w-[280px] select-none sm:w-[44%] sm:max-w-[380px] lg:w-[31%] lg:max-w-[460px]"
           />
         )}
 
         <CardContext.Provider value={since}>
           <div
-            className={`relative z-20 flex flex-1 flex-col items-center justify-center px-4 pt-14 pb-16 text-center sm:px-10 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 ${className}`}
+            className={`relative z-20 flex flex-1 flex-col items-center justify-start px-4 pt-16 pb-20 text-center sm:justify-center sm:px-10 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28 ${className}`}
           >
-            <div className="my-auto flex w-full max-w-3xl flex-col items-center">
+            <div className="flex w-full max-w-3xl flex-col items-center sm:my-auto">
               {children}
             </div>
           </div>

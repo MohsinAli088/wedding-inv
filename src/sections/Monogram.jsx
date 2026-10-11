@@ -14,7 +14,7 @@ function Logo() {
       <img
         src={img('logo.webp')}
         alt="Dr. Shiva Shalini and Dr. Sankalp Shashwat Monogram"
-        className={`logo-in mx-auto w-56 drop-shadow-xl sm:w-64 lg:w-72 ${
+        className={`logo-in mx-auto w-44 drop-shadow-xl sm:w-60 lg:w-72 ${
           inView && cardSince > 0 ? 'is-visible' : ''
         }`}
         style={{ transitionDelay: `${INK_LEAD_MS}ms` }}
@@ -27,8 +27,8 @@ export default function Monogram() {
   return (
     <Card id="monogram" label="Dr. Shiva Shalini and Dr. Sankalp Shashwat" cornerMantra={mantra.ganesh}>
       <Logo />
-      <div className="mt-5 sm:mt-7 flex w-full max-w-2xl flex-col items-center text-center">
-        <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[0.14em] text-rust leading-normal">
+      <div className="mt-4 sm:mt-7 flex w-full max-w-2xl flex-col items-center text-center px-2">
+        <h1 className="font-heading text-xl sm:text-3xl lg:text-4xl font-bold tracking-[0.08em] sm:tracking-[0.14em] text-rust leading-normal">
           <SplitText
             chars={couple.bride.toUpperCase()}
             label={couple.bride}
@@ -36,13 +36,13 @@ export default function Monogram() {
           />
         </h1>
 
-        <Reveal delay={1100} className="my-2.5 sm:my-3.5 flex items-center justify-center gap-3">
+        <Reveal delay={1100} className="my-2 sm:my-3.5 flex items-center justify-center gap-3">
           <span className="h-px w-10 bg-gold/60 sm:w-16" />
-          <img src={img('ring.webp')} alt="&" className="size-7 sm:size-9 drop-shadow-md" />
+          <img src={img('ring.webp')} alt="&" className="size-6 sm:size-9 drop-shadow-md" />
           <span className="h-px w-10 bg-gold/60 sm:w-16" />
         </Reveal>
 
-        <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-[0.14em] text-crimson leading-normal">
+        <h2 className="font-heading text-xl sm:text-3xl lg:text-4xl font-bold tracking-[0.08em] sm:tracking-[0.14em] text-crimson leading-normal">
           <SplitText
             chars={couple.groom.toUpperCase()}
             label={couple.groom}
@@ -50,8 +50,8 @@ export default function Monogram() {
           />
         </h2>
 
-        <Reveal delay={1700} className="mt-4 sm:mt-5 max-w-lg px-4 text-center">
-          <p className="font-body text-base italic leading-relaxed text-teal-deep sm:text-lg">
+        <Reveal delay={1700} className="mt-3.5 sm:mt-5 max-w-lg px-2 text-center">
+          <p className="font-body text-sm sm:text-base md:text-lg italic leading-relaxed text-teal-deep">
             "{couple.tagline}"
           </p>
         </Reveal>
