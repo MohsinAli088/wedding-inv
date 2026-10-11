@@ -1,0 +1,345 @@
+import { useEffect, useRef, useState } from 'react'
+import { img } from '../asset'
+
+// Opening sequence recreated from the invitation video:
+// envelope slides in → wax seal lifts → flap opens → marigolds burst out →
+// the card rises out, grows to fill the screen, and the page fades in beneath.
+
+const T = {
+  enter: [150, 1300],
+  sealPulse: [1300, 1550],
+  sealGone: [1550, 1800],
+  flap: [1650, 2250],
+  flowers: [2150, 4300],
+  cardIn: [2250, 2450],
+  cardRise: [2300, 3450],
+  zoom: [3500, 4700],
+  envOut: [3550, 4500],
+  fadeOut: [4950, 5550],
+}
+const END = T.fadeOut[1]
+
+const clamp01 = (v) => Math.min(1, Math.max(0, v))
+const seg = (t, [a, b]) => clamp01((t - a) / (b - a))
+const lerp = (a, b, p) => a + (b - a) * p
+const outCubic = (p) => 1 - (1 - p) ** 3
+const inCubic = (p) => p ** 3
+const inOutCubic = (p) => (p < 0.5 ? 4 * p ** 3 : 1 - (-2 * p + 2) ** 3 / 2)
+
+const SITE_IMAGES = [
+  'paper.webp', 'frame.webp', 'logo.webp', 'garland.webp', 'marigold.webp', 'peacock.webp',
+  'ink-1.webp', 'ink-2.webp', 'ampersand.webp', 'ganesh.png', 'ring.webp',
+  ...['lotus', 'agni', 'waves', 'north-star', 'infinity', 'knot', 'sun-moon'].map((n) => `icon-${n}.png`),
+]
+
+const WINE = '#741829'
+const WINE_DARK = '#57101c'
+const WINE_LIGHT = '#8c2234'
+const LINER = '#f6eedc'
+
+// Deterministic flower flight paths
+const FLOWERS = Array.from({ length: 11 }, (_, i) => {
+  const r = (n) => {
+    const x = Math.sin((i + 1) * 9301 + n * 49297) * 233280
+    return x - Math.floor(x)
+  }
+  return {
+    delay: i * 70,
+    dur: 1500 + r(1) * 600,
+    x: (r(2) - 0.5) * 1.1, // × viewport width
+    y: -(0.4 + r(3) * 0.65), // × viewport height
+    size: 0.11 + r(4) * 0.13, // × min(vw, vh)
+    spin: (r(5) > 0.5 ? 1 : -1) * (90 + r(6) * 200),
+    grow: 1 + r(7) * 0.9,
+  }
+})
+
+// Must match Card.jsx section padding / max width so the hand-off is seamless
+function cardBox(vw, vh) {
+  const px = vw >= 1280 ? 56 : vw >= 1024 ? 24 : vw >= 640 ? 16 : 8
+  const py = vw >= 640 ? 16 : 8
+  return { w: Math.min(vw - 2 * px, 1280), h: vh - 2 * py }
+}
+
+function geometry(vw, vh) {
+  const E = Math.min(vw * 0.78, 460)
+  const H = E * 0.66
+  const desktop = vw >= 768
+  const cx = vw * (desktop ? 0.1 : 0.06)
+  const cy = vh * (desktop ? 0.2 : 0.24)
+  const card = cardBox(vw, vh)
+  const s = (0.52 * E) / card.w
+  return { E, H, cx, cy, card, s, ch: s * card.h }
+}
+
+function envelopeAt(t, g, vw, vh) {
+  const p = outCubic(seg(t, T.enter))
+  const q = inCubic(seg(t, T.envOut))
+  return {
+    dx: g.cx + lerp(vw * 0.6, 0, p),
+    dy: g.cy + lerp(vh * 0.6, 0, p) + q * vh * 0.9,
+    r: lerp(24, -7, p) - 10 * q,
+    blur: q * 6,
+  }
+}
+
+export default function Intro({ onOpen, onDone }) {
+  const [phase, setPhase] = useState('loading')
+  const refs = {
+    root: useRef(null),
+    garland: useRef(null),
+    back: useRef(null),
+    front: useRef(null),
+    flap: useRef(null),
+    flapInner: useRef(null),
+    seal: useRef(null),
+    card: useRef(null),
+    flowers: useRef([]),
+  }
+  const skipRef = useRef(false)
+  const doneRef = useRef(onDone)
+  doneRef.current = onDone
+
+  // Download and decode every image the site uses (plus the web fonts) before
+  // playing, so on a slow connection nothing animates in half-loaded.
+  useEffect(() => {
+    const loads = SITE_IMAGES.map(
+      (name) =>
+        new Promise((res) => {
+          const el = new Image()
+          el.onload = () => (el.decode ? el.decode().then(res, res) : res())
+          el.onerror = res
+          el.src = img(name)
+        }),
+    )
+    const fonts = document.fonts?.ready ?? Promise.resolve()
+    const timeout = new Promise((res) => setTimeout(res, 15000))
+    // dev ?introAt= inspection skips the tap
+    const inspecting = import.meta.env.DEV && new URLSearchParams(location.search).has('introAt')
+    Promise.race([Promise.all([...loads, fonts]), timeout]).then(() => setPhase(inspecting ? 'playing' : 'ready'))
+  }, [])
+
+  const open = () => {
+    onOpen?.()
+    setPhase('playing')
+  }
+
+  useEffect(() => {
+    if (phase !== 'playing') return
+    let raf
+    let start = performance.now()
+    // Dev only: ?introAt=2500 freezes the sequence at that moment for inspection
+    const frozenAt = import.meta.env.DEV ? new URLSearchParams(location.search).get('introAt') : null
+
+    const frame = (now) => {
+      if (skipRef.current) {
+        // jump to the fade-out
+        start = Math.min(start, now - T.fadeOut[0])
+        skipRef.current = false
+      }
+      const t = frozenAt !== null ? +frozenAt : now - start
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      const g = geometry(vw, vh)
+      const env = envelopeAt(t, g, vw, vh)
+      const base = `translate(${env.dx}px, ${env.dy}px) rotate(${env.r}deg)`
+      const envFilter = env.blur ? `blur(${env.blur}px)` : 'none'
+
+      for (const part of [refs.back, refs.front, refs.flap, refs.seal]) {
+        const el = part.current
+        if (!el) continue
+        el.style.width = `${g.E}px`
+        el.style.height = `${g.H}px`
+        el.style.transform = `translate(-50%, -50%) ${base}`
+        el.style.filter = envFilter
+      }
+
+      // wax seal: small pulse, then lifts away
+      const pulse = Math.sin(seg(t, T.sealPulse) * Math.PI) * 0.12
+      const gone = seg(t, T.sealGone)
+      refs.seal.current.style.opacity = String(1 - gone)
+      refs.seal.current.firstChild.style.transform = `scale(${1 + pulse + gone * 0.5}) translateY(${-gone * 30}px)`
+
+      // flap swings open; drops behind the card once past vertical
+      const flapAngle = 180 * inOutCubic(seg(t, T.flap))
+      refs.flapInner.current.style.transform = `rotateX(${flapAngle}deg)`
+      refs.flap.current.style.zIndex = flapAngle > 90 ? '1' : '5'
+
+      // card: rises out of the envelope, then grows to fill the screen
+      const card = refs.card.current
+      card.style.width = `${g.card.w}px`
+      card.style.height = `${g.card.h}px`
+      const yStart = -g.H / 2 + g.ch / 2 + g.H * 0.1
+      const yEnd = -g.H / 2 + g.H * 0.12 - g.ch / 2
+      const rise = inOutCubic(seg(t, T.cardRise))
+      const z = inOutCubic(seg(t, T.zoom))
+      const frozen = envelopeAt(T.zoom[0], g, vw, vh)
+      const src = t < T.zoom[0] ? env : frozen
+      const dx = lerp(src.dx, 0, z)
+      const dy = lerp(src.dy, 0, z)
+      const r = lerp(src.r, 0, z)
+      const y = lerp(lerp(yStart, yEnd, rise), 0, z)
+      const s = lerp(g.s, 1, z)
+      card.style.transform = `translate(-50%, -50%) translate(${dx}px, ${dy}px) rotate(${r}deg) translateY(${y}px) scale(${s})`
+      card.style.opacity = String(seg(t, T.cardIn))
+      card.style.zIndex = t >= T.zoom[0] ? '8' : '3'
+      // hide whatever would poke out below the envelope
+      const visible = clamp01((g.H / 2 - (y - g.ch / 2)) / g.ch)
+      card.style.clipPath = z > 0 ? 'none' : `inset(0 0 ${(1 - visible) * 100}% 0)`
+
+      // marigolds burst from the envelope mouth
+      const mouth = -g.H / 2 + g.H * 0.2
+      const rad = (env.r * Math.PI) / 180
+      const ox = env.dx - mouth * Math.sin(rad)
+      const oy = env.dy + mouth * Math.cos(rad)
+      const unit = Math.min(vw, vh)
+      FLOWERS.forEach((f, i) => {
+        const el = refs.flowers.current[i]
+        if (!el) return
+        const local = clamp01((t - T.flowers[0] - f.delay) / f.dur)
+        const p = outCubic(local)
+        const size = f.size * unit
+        el.style.width = `${size}px`
+        el.style.height = `${size}px`
+        el.style.transform = `translate(-50%, -50%) translate(${ox + f.x * vw * p}px, ${oy + f.y * vh * p}px) rotate(${f.spin * p}deg) scale(${lerp(0.25, f.grow, p)})`
+        el.style.opacity = local <= 0 ? '0' : String(Math.min(1, local * 8) * (1 - clamp01((local - 0.62) / 0.38)))
+        el.style.filter = local > 0.6 ? `blur(${(local - 0.6) * 10}px)` : 'none'
+      })
+
+      // garland drops in at the start
+      refs.garland.current.style.transform = `translateY(${(1 - outCubic(seg(t, [0, 900]))) * -100}%)`
+
+      // fade the whole overlay away, revealing the site
+      const fade = seg(t, T.fadeOut)
+      refs.root.current.style.opacity = String(1 - fade)
+
+      if (t >= END && frozenAt === null) {
+        doneRef.current()
+        return
+      }
+      raf = requestAnimationFrame(frame)
+    }
+    raf = requestAnimationFrame(frame)
+    return () => cancelAnimationFrame(raf)
+  }, [phase]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div
+      ref={refs.root}
+      role="dialog"
+      aria-label="Opening invitation"
+      className="fixed inset-0 z-[100] overflow-hidden bg-paper"
+      style={{ background: `url('${img('paper.webp')}') center / cover, var(--color-paper)` }}
+    >
+      {phase !== 'playing' && (
+        <div role="status" className="absolute inset-0 grid place-items-center">
+          <button
+            type="button"
+            onClick={open}
+            disabled={phase === 'loading'}
+            className="group flex flex-col items-center gap-5 disabled:cursor-wait"
+          >
+            <span
+              className={`grid size-24 place-items-center rounded-full shadow-[0_4px_12px_rgba(50,10,15,0.45),inset_0_-3px_6px_rgba(100,60,10,0.45),inset_0_3px_5px_rgba(255,255,255,0.75)] transition group-enabled:group-hover:scale-105 sm:size-28 ${
+                phase === 'loading' ? 'intro-loader' : 'intro-ready'
+              }`}
+              style={{ background: 'radial-gradient(circle at 40% 35%, #fff4d2, #dbb059 70%, #9e7323)' }}
+            >
+              {phase === 'loading' ? (
+                <span lang="sa" className="font-devanagari text-4xl font-bold text-[#741829]">
+                  ॐ
+                </span>
+              ) : (
+                <img src={img('logo.webp')} alt="" className="w-[84%] drop-shadow-sm" />
+              )}
+            </span>
+            <span className="text-xs font-semibold tracking-[0.35em] text-[#741829] uppercase sm:text-sm">
+              {phase === 'loading' ? 'Opening your invitation…' : 'Tap to open'}
+            </span>
+          </button>
+        </div>
+      )}
+
+      {/* the whole scene stays hidden until its artwork has loaded */}
+      <div className="absolute inset-0" style={{ visibility: phase === 'playing' ? 'visible' : 'hidden' }}>
+      <div ref={refs.garland} className="absolute top-0 left-[4%] w-[46%] max-w-[420px] sm:w-[30%] lg:w-[24%]" style={{ transform: 'translateY(-100%)' }}>
+        <img src={img('garland.webp')} alt="" className="animate-sway w-full" />
+      </div>
+
+      {/* Envelope parts share one transform; separate layers let the card slot between them */}
+      <div ref={refs.flap} className="absolute top-1/2 left-1/2" style={{ perspective: '900px', zIndex: 5 }}>
+        <div ref={refs.flapInner} className="h-full w-full" style={{ transformOrigin: '50% 0', transformStyle: 'preserve-3d' }}>
+          <svg viewBox="0 0 100 66" preserveAspectRatio="none" className="h-full w-full overflow-visible drop-shadow-[0_4px_5px_rgba(40,10,15,0.35)]">
+            <path d="M0 0 H100 L53 37 Q50 39.5 47 37 Z" fill={WINE_LIGHT} />
+            <path d="M0 0 L53 37 Q50 39.5 47 37 L100 0" fill="none" stroke="#d4af37" strokeWidth="0.4" strokeOpacity="0.85" />
+          </svg>
+        </div>
+      </div>
+
+      <div ref={refs.back} className="absolute top-1/2 left-1/2 z-[2] drop-shadow-[0_18px_24px_rgba(40,10,15,0.38)]">
+        <svg viewBox="0 0 100 66" preserveAspectRatio="none" className="h-full w-full">
+          <rect width="100" height="66" rx="1.5" fill={WINE} />
+          <path d="M1.5 1.5 H98.5 L50 34 Z" fill={LINER} />
+          <path d="M1.5 1.5 H98.5 L50 34 Z" fill="none" stroke="#d4af37" strokeWidth="0.3" strokeOpacity="0.5" />
+        </svg>
+      </div>
+
+      <div ref={refs.front} className="absolute top-1/2 left-1/2 z-[4]">
+        <svg viewBox="0 0 100 66" preserveAspectRatio="none" className="h-full w-full">
+          <defs>
+            <pattern id="env-tex" patternUnits="userSpaceOnUse" width="60" height="66">
+              <image href={img('paper.webp')} width="60" height="66" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+          </defs>
+          <path d="M0 0 L50 37 L0 66 Z" fill={WINE_DARK} />
+          <path d="M100 0 L50 37 L100 66 Z" fill={WINE_DARK} />
+          <path d="M0 66 L48 33.5 Q50 32 52 33.5 L100 66 Z" fill={WINE} />
+          <path d="M0 66 L48 33.5 Q50 32 52 33.5 L100 66" fill="none" stroke="#d4af37" strokeWidth="0.4" strokeOpacity="0.85" />
+          <rect width="100" height="66" fill="url(#env-tex)" style={{ mixBlendMode: 'multiply' }} opacity="0.25" />
+        </svg>
+      </div>
+
+      <div ref={refs.seal} className="absolute top-1/2 left-1/2 z-[6]">
+        {/* sits on the flap tip */}
+        <div className="absolute top-[57%] left-1/2 aspect-square w-[21%] -translate-x-1/2 -translate-y-1/2">
+          <div
+            className="grid h-full w-full place-items-center rounded-full shadow-[0_4px_8px_rgba(50,10,15,0.45),inset_0_-3px_6px_rgba(100,60,10,0.45),inset_0_3px_5px_rgba(255,255,255,0.75)]"
+            style={{ background: 'radial-gradient(circle at 40% 35%, #fff4d2, #dbb059 70%, #9e7323)' }}
+          >
+            <img src={img('logo.webp')} alt="" className="w-[84%] drop-shadow-sm" />
+          </div>
+        </div>
+      </div>
+
+      <div ref={refs.card} className="card-frame absolute top-1/2 left-1/2 grid place-items-center" style={{ opacity: 0 }}>
+        <img src={img('logo.webp')} alt="" className="w-[min(65%,24rem)] drop-shadow-md" />
+      </div>
+
+      {FLOWERS.map((_, i) => (
+        <img
+          key={i}
+          ref={(el) => (refs.flowers.current[i] = el)}
+          src={img('marigold.webp')}
+          alt=""
+          className="absolute top-1/2 left-1/2 z-[7]"
+          style={{ opacity: 0 }}
+        />
+      ))}
+      </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          if (phase === 'playing') skipRef.current = true
+          else {
+            onOpen?.()
+            onDone()
+          }
+        }}
+        className="absolute right-4 bottom-4 z-[9] border border-gold/70 bg-paper/90 px-4 py-1.5 text-xs font-semibold tracking-[0.3em] text-[#741829] uppercase backdrop-blur-sm transition hover:bg-[#741829] hover:text-paper sm:right-6 sm:bottom-6"
+      >
+        Skip
+      </button>
+    </div>
+  )
+}
