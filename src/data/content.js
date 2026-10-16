@@ -1,182 +1,213 @@
-// Engagement Invitation Content for Dr. Shiva Shalini & Dr. Sankalp Shashwat
-// Based on changes.jpeg and Logo.jpeg
+// All wording for the invitation lives here.
+// Venues, Jaimala/Vivah times and RSVP contacts are SAMPLE values: replace them once confirmed.
 
-export const music = { src: 'audio/preet-re.mp3', title: 'Preet Re', volume: 0.6 }
+// Background song
+export const music = { src: 'audio/sajna.mp3', title: 'Sajna', volume: 0.6 }
 
 export const couple = {
-  bride: 'Dr. Shiva Shalini',
-  groom: 'Dr. Sankalp Shashwat',
-  tagline: 'Two souls, one journey, hand in hand with faith, love and destiny.',
-  ceremony: 'Engagement Ceremony',
+  groom: 'Sankalp',
+  bride: 'Shalini',
+  groomFull: 'Dr. Sankalp Shashwat',
+  brideFull: 'Dr. Shiva Shalini',
+  tagline: 'Two souls, one journey — with the blessings of our families',
+  hashtag: '#SankalpWedsShalini',
 }
 
 export const mantra = {
-  om: 'ॐ',
-  shri: 'श्री',
-  ganesh: '॥ श्री गणेशाय नमः ॥',
-  shlokaTop: 'यत्र धर्मस्तत्र जयः यत्र प्रेम तत्र परमात्मा।',
-  shlokaTopMeaning: 'Where there is righteousness, there is victory; where there is love, there is the Divine.',
-  spiritualReminderTitle: 'A SPIRITUAL REMINDER',
-  spiritualReminder: [
-    'सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः ।',
-    'सर्वे भद्राणि पश्यन्तु, मा कश्चिद् दुःखभाग्भवेत् ॥',
+  ganesh: '|| Shree Ganeshay Namah ||',
+  shloka: [
+    'वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।',
+    'निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥',
   ],
-  spiritualReminderMeaning:
-    'May all be happy, may all be free from illness. May all see what is auspicious, may none suffer.',
 }
 
-// MAIN PAGE 1: GANESH & AUSPICIOUS INVITATION
-export const opening = {
-  invocation: '॥ श्री गणेशाय नमः ॥',
-  shloka: 'यत्र धर्मस्तत्र जयः यत्र प्रेम तत्र परमात्मा।',
-  shlokaMeaning: 'Where there is righteousness, there is victory; where there is love, there is the Divine.',
-  blessingIntro: 'WITH THE BLESSINGS OF ALMIGHTY AND OUR ELDERS',
-  inviteIntro: 'WE JOYFULLY INVITE YOU TO GRACE THE',
-  eventType: 'ENGAGEMENT',
-  belovedIntro: 'OF OUR BELOVED',
-  bride: {
-    name: 'Dr. Shiva Shalini',
-    relation: 'D/O',
-    parents: 'Samrendra Singh & Sangita Singh',
-    residence: 'Purnia, Bihar',
-  },
+// PAGE 1: Ganesh + blessings
+export const blessings = {
+  title: 'with the blessings of',
+  couples: [
+    ['Late Shrimati Manorma Singh', 'Late Shri Bachchan Singh'],
+    ['Late Shrimati Saroj Singh', 'Late Shri Paramanand Singh'],
+  ],
+}
+
+// PAGE 2: the invitation
+export const invitation = {
+  lead: 'You are cordially invited to the wedding ceremony of',
   groom: {
     name: 'Dr. Sankalp Shashwat',
     relation: 'S/O',
-    parents: 'Dr. Jitendra Pratap Singh & Vimla Singh',
-    residence: 'Varanasi, Uttar Pradesh',
+    parents: ['Smt. Vimla Singh &', 'Dr. Jitendra Pratap Singh'],
+    family: [
+      { relation: 'Sister', name: 'Dr. Ayushi Anushka' },
+    ],
   },
-  dateSummary: 'WEDNESDAY, 1ST JULY 2026',
-  timeSummary: '7 PM AND ONWARDS',
-  venueSummary: 'HOTEL MAYFAIR RESORT, PURNIA',
+  weds: 'Weds',
+  bride: {
+    name: 'Dr. Shiva Shalini',
+    relation: 'D/O',
+    parents: ['Smt. Sangeeta Singh &', 'Shri Samrendra Kumar Singh'],
+    family: [
+      { relation: 'Brother', name: 'Swet Saurabh' },
+      { relation: 'Sister-in-law', name: 'Payal Kumari' },
+      { relation: 'Niece', name: 'Shivangi' },
+    ],
+  },
 }
 
-// CONCEPT / UNION PAGE: BIHAR & VARANASI
-export const description = {
-  title: 'Two Souls, One Journey',
-  subtitle: 'A Sacred Confluence of Bihar & Varanasi',
-  quote: 'Two souls, one journey, hand in hand with faith, love and destiny.',
-  paragraphs: [
-    'With the divine grace of Almighty and elders, Dr. Shiva Shalini and Dr. Sankalp Shashwat unite two revered lands and traditions in a lifetime promise of love and togetherness.',
-    'From the serene, timeless heritage of Bodh Gaya and Purnia in Bihar to the eternal sacred ghats, evening aartis, and holy waters of the Ganges in Varanasi, their bond is blessed by the Divine.',
-    'As rings are exchanged and two families unite as one, we warmly welcome you to celebrate this auspicious evening with us and shower your loving blessings.',
-  ],
-}
+// Main resort venue in Udaipur
+const RESORT_NAME = 'Ramada Resort & Spa, Udaipur'
 
-// SACRED ELEMENTS REFLECTED IN ARTWORK
-export const sequenceOfElements = [
-  { icon: 'lotus', name: 'Divine Lotus', meaning: 'Purity, spiritual awakening, and blessings of Bihar.' },
-  { icon: 'knot', name: 'The Sacred Ring', meaning: 'The eternal vow of engagement and unity of two souls.' },
-  { icon: 'waves', name: 'Holy Ganga', meaning: 'Sacred waters carrying timeless blessings from Varanasi.' },
-  { icon: 'north-star', name: 'Dhruva Tara', meaning: 'Steadfast guidance and eternal devotion through life.' },
-  { icon: 'infinity', name: 'Infinity', meaning: 'An unbroken bond of faith, health, and prosperity.' },
-  { icon: 'sun-moon', name: 'Sun & Moon', meaning: 'Celestial balance and harmonious new beginnings.' },
-  { icon: 'agni', name: 'Sacred Light', meaning: 'Where righteousness resides, the Divine illuminates love.' },
-]
-
-export const VENUE_LINES = [
-  'Hotel Mayfair Resort',
-  'Green Valley Campus, Gulabhbagh,',
-  'Purnia, Bihar',
-]
-
-// EVENTS LIST
+// PAGES 3–7: functions. `functions` on one page share its date unless they have their own.
 export const events = [
   {
-    id: 'engagement',
-    title: 'The Engagement Ceremony',
-    subtitle: 'Shubh Sagai & Ring Exchange',
-    theme: 'rajputana',
-    element: 'knot',
-    invocation: { lang: 'sa', text: '॥ श्री गणेशाय नमः ॥' },
-    blessing: {
-      verse: {
-        lang: 'sa',
-        lines: ['यत्र धर्मस्तत्र जयः यत्र प्रेम तत्र परमात्मा।'],
-      },
-      lines: [
-        'Two souls, one journey, hand in hand with faith, love and destiny.',
-        'With rings exchanged and hearts united, we step into a blessed forever.',
-      ],
-    },
-    date: 'Wednesday, 1st July 2026',
-    dateNote: '01 | 07 | 2026',
-    schedule: [
-      { label: 'Guest Arrival', time: '6:30 PM onwards', note: '(Welcome & Refreshments)' },
-      { label: 'Ring Ceremony', time: '7:00 PM onwards', note: '(Auspicious Ring Exchange)' },
-      { label: 'Celebration Feast', time: '8:00 PM onwards', note: '(Followed by Dinner)' },
+    id: 'mehndi',
+    blessing: [
+      'As the colours of mehndi bring joy and tradition,',
+      'may music and laughter fill the evening that follows.',
     ],
-    dressCode: {
-      label: 'Regal Traditional / Festive Indo-Western',
-      colors: ['#741829', '#c99738', '#1b3a4b', '#2d5032', '#d9822b'],
-    },
-    venue: VENUE_LINES,
     description:
-      'We joyfully invite you to grace the engagement of Dr. Shiva Shalini & Dr. Sankalp Shashwat. Your presence and blessings will make our celebration complete.',
+      'A day of henna, “music” and dance, where hands are painted with love and the night is lit up with songs and celebration.',
+    title: 'Mehndi & Sangeet',
+    theme: 'mughal',
+    element: 'waves',
+    date: '8 December 2026',
+    functions: [
+      {
+        name: 'Mehndi',
+        time: '11:00 AM',
+        venue: ['Spa Deck', RESORT_NAME],
+        note: 'Lunch — Meridien',
+      },
+      {
+        name: 'Sangeet',
+        time: '7:00 PM',
+        venue: ['Pangat Banquet', RESORT_NAME],
+      },
+    ],
   },
   {
-    id: 'celebrations',
-    title: 'Sangeet & Festivities',
-    subtitle: 'Melodies of Joy & Celebration',
-    theme: 'golden',
-    element: 'sun-moon',
-    invocation: { lang: 'sa', text: '॥ श्री गणेशाय नमः ॥' },
-    blessing: {
-      lines: [
-        'An evening under the stars filled with music, laughter, and dance.',
-        'Let us celebrate the beautiful union of two souls and two loving families.',
-      ],
-    },
-    date: 'Wednesday, 1st July 2026',
-    dateNote: 'Evening Celebrations',
-    schedule: [
-      { label: 'Musical Night', time: '8:30 PM onwards' },
-      { label: 'Dinner & Banquet', time: '9:00 PM onwards', note: '(Royal Feast)' },
+    id: 'haldi',
+    blessing: [
+      'With the golden glow of haldi and the blessings of loved ones,',
+      'we begin the sacred rituals with joy and affection.',
     ],
-    dressCode: {
-      label: 'Evening Glamour / Festive Sparkle',
-      colors: ['#121c40', '#d4af37', '#741829'],
-    },
-    venue: VENUE_LINES,
     description:
-      'Celebrate with music, rhythms, and warmth as both families dance to soulful melodies under a moonlit sky.',
+      'The auspicious “Haldi” is applied to bless the couple with health, happiness and a radiant start to their new journey.',
+    title: 'Haldi',
+    theme: 'village',
+    element: 'infinity',
+    date: '9 December 2026',
+    functions: [
+      {
+        name: 'Haldi',
+        time: '10:00 AM',
+        venue: ['Rock Garden', RESORT_NAME],
+      },
+    ],
+  },
+  {
+    id: 'barat',
+    blessing: [
+      'With dhol, dance and joyous hearts,',
+      'we welcome the groom and celebrate the union of two families.',
+    ],
+    description:
+      'The grand “Barat” procession welcomes the groom, followed by the “Jaimala”, where the couple exchange garlands as a promise of love and respect.',
+    title: 'Barat & Jaimala',
+    theme: 'rajputana',
+    element: 'knot',
+    date: '9 December 2026',
+    functions: [
+      {
+        name: 'Barat Procession',
+        time: '7:00 PM',
+        venue: ['Amber Pool Side', RESORT_NAME],
+        note: 'Assembly: Main Parking',
+      },
+      {
+        name: 'Jaimala',
+        time: '8:30 PM',
+        venue: ['Amber Pool Side', RESORT_NAME],
+      },
+    ],
+  },
+  {
+    id: 'ceremony',
+    blessing: [
+      'With blessings in the air and gratitude in our hearts,',
+      'we look forward to sharing this sacred moment with you.',
+    ],
+    description:
+      'The sacred “Phera” ceremony, where two hearts and two families are united around the holy fire with seven eternal vows.',
+    title: 'Phera',
+    theme: 'temple',
+    element: 'agni',
+    date: '9 December 2026',
+    functions: [
+      {
+        name: 'Phera (Vivah Samaroh)',
+        time: '10:00 PM',
+        venue: ['Sarlat Garden', RESORT_NAME],
+      },
+    ],
+  },
+  {
+    id: 'bidai',
+    blessing: [
+      'With moist eyes and hearts full of blessings,',
+      'we bid the bride a loving farewell.',
+    ],
+    description:
+      'A heartfelt “Bidai”, as the bride leaves her parental home carrying the love, blessings and best wishes of her family.',
+    title: 'Bidai Samaroh',
+    theme: 'eternity',
+    element: 'lotus',
+    date: '10 December 2026',
+    functions: [
+      {
+        name: 'Bidai Samaroh',
+        time: '11:00 AM',
+        venue: ['Ramada Resort & Spa', 'Udaipur, Rajasthan'],
+      },
+    ],
   },
 ]
 
-// PAGE: FAMILY
-export const family = {
-  title: 'A Cordial Invitation From',
-  subtitle: 'With the blessings of our elders and loved ones',
-  brideFamily: {
-    title: "Bride's Family",
-    parents: 'Samrendra Singh & Sangita Singh',
-    members: [
-      { role: 'Brother', name: 'Swet Saurabh' },
-      { role: 'Sister-in-law', name: 'Payal' },
-      { role: 'Niece', name: 'Shivanshi' },
-    ],
-    residence: 'Purnia, Bihar',
+// PAGE 8: closing
+export const closing = {
+  awaits: 'We eagerly await your presence and blessings',
+  thanks: 'Your presence will make our celebration complete.',
+  family: {
+    title: 'With Warm Regards & Best Compliments',
+    groomSide: {
+      title: "Groom's Family",
+      members: [
+        { relation: 'Sister', name: 'Dr. Ayushi Anushka' },
+      ],
+    },
+    brideSide: {
+      title: "Bride's Family",
+      members: [
+        { relation: 'Brother', name: 'Swet Saurabh' },
+        { relation: 'Sister-in-law', name: 'Payal Kumari' },
+        { relation: 'Niece', name: 'Shivangi' },
+      ],
+    },
   },
-  groomFamily: {
-    title: "Groom's Family",
-    parents: 'Dr. Jitendra Pratap Singh & Vimla Singh',
-    members: [
-      { role: 'Sister', name: 'Dr. Ayushi Anushka' },
-    ],
-    residence: 'Varanasi, Uttar Pradesh',
+  rsvpTitle: 'RSVP / Contact',
+  contacts: [
+    { name: "Groom's Family", phone: '+91 98765 43210' },
+    { name: "Bride's Family", phone: '+91 91234 56789' },
+  ],
+  venue: {
+    title: 'Wedding Venue',
+    name: 'Ramada Resort & Spa',
+    location: 'Udaipur, Rajasthan',
   },
-  awaits: 'The Singh & Shashwat Families Joyfully Await Your Gracious Presence',
-  spiritualReminder: {
-    title: 'A SPIRITUAL REMINDER',
-    shloka: [
-      'सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः ।',
-      'सर्वे भद्राणि पश्यन्तु, मा कश्चिद् दुःखभाग्भवेत् ॥',
-    ],
-    translation:
-      'May all be happy, may all be free from illness. May all see what is auspicious, may none suffer.',
-  },
-  note: 'No gifts, only your loving blessings & presence',
+  hashtag: '#SankalpWedsShalini',
 }
+
+export const isPlaceholder = () => false
 
 export const mapsLink = (lines) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lines.join(' '))}`

@@ -1,127 +1,62 @@
 import { useState } from 'react'
 import Card from '../components/Card'
+import { Divider } from '../components/Ornaments'
 import Reveal from '../components/Reveal'
-import SplitText from '../components/SplitText'
-import { mantra, opening } from '../data/content'
+import { blessings, mantra } from '../data/content'
 import { img } from '../asset'
 
+// PAGE 1 — Shree Ganeshay Namah + blessings of the elders
 export default function Ganesh() {
   const [hasPhoto, setHasPhoto] = useState(true)
 
   return (
-    <Card id="ganesh" label="Shri Ganeshay Namah">
-      {/* Auspicious Lord Ganesha Medallion */}
+    <Card id="ganesh" label="Shree Ganeshay Namah">
       <Reveal className="flex flex-col items-center">
-        <div className="relative grid size-28 place-items-center sm:size-36 lg:size-44">
-          <span className="absolute inset-0 rounded-full border border-rust/50 shadow-[0_0_15px_rgba(201,151,56,0.25)]" />
-          <span className="animate-spin-slow absolute inset-1.5 rounded-full border border-dashed border-gold/70" />
+        <div className="relative grid size-36 place-items-center sm:size-48 lg:size-52">
+          <span className="absolute inset-0 rounded-full border border-rust/60" />
+          <span className="animate-spin-slow absolute inset-2 rounded-full border border-dashed border-teal-deep/40" />
           {hasPhoto ? (
             <img
               src={img('ganesh.png')}
               alt="Shri Ganesh"
               onError={() => setHasPhoto(false)}
-              className="size-[86%] rounded-full object-cover shadow-sm"
+              className="size-[86%] object-contain"
             />
           ) : (
-            <span lang="sa" className="font-devanagari text-5xl font-bold text-rust sm:text-6xl">
-              {mantra.om}
+            <span lang="hi" className="font-devanagari text-7xl font-bold text-rust sm:text-8xl">
+              श्री
             </span>
           )}
         </div>
       </Reveal>
 
-      {/* Vedic Invocations from changes.jpeg */}
-      <Reveal delay={200} lang="sa" className="mt-3 text-center px-2">
-        <p className="font-devanagari text-base font-bold text-rust sm:text-xl">
-          {mantra.ganesh}
-        </p>
-        <p className="mt-1 font-devanagari text-xs sm:text-base font-semibold text-crimson leading-relaxed">
-          {mantra.shlokaTop}
-        </p>
+      <Reveal delay={200} className="mt-5">
+        <p className="text-xl font-bold tracking-[0.12em] text-rust sm:text-3xl">{mantra.ganesh}</p>
       </Reveal>
 
-      <Reveal delay={350} className="mt-1.5 max-w-lg text-center px-2">
-        <p className="font-body text-xs italic tracking-wider text-teal-deep/90 sm:text-sm">
-          "{mantra.shlokaTopMeaning}"
-        </p>
+      <Reveal delay={320} lang="sa" className="mt-3 font-devanagari text-base leading-relaxed font-semibold text-rust sm:text-xl">
+        {mantra.shloka.map((l) => (
+          <p key={l}>{l}</p>
+        ))}
       </Reveal>
 
-      {/* Invitation Header */}
-      <Reveal delay={450} className="mt-3.5 max-w-xl text-center px-2">
-        <p className="font-heading text-[10px] sm:text-xs tracking-[0.16em] text-teal-deep uppercase">
-          {opening.blessingIntro}
-        </p>
-        <p className="mt-0.5 font-heading text-[10px] sm:text-xs tracking-[0.16em] text-teal-deep uppercase">
-          {opening.inviteIntro}
-        </p>
-        <h2 className="mt-1 font-heading text-xl sm:text-3xl lg:text-4xl font-bold tracking-[0.2em] text-rust uppercase leading-tight">
-          {opening.eventType}
-        </h2>
-        <p className="mt-0.5 font-body text-xs sm:text-sm tracking-[0.16em] text-teal-deep uppercase italic">
-          {opening.belovedIntro}
-        </p>
+      <Reveal delay={450} className="mt-6">
+        <Divider className="text-rust/80" />
+        <p className="mt-4 text-sm tracking-[0.3em] text-teal-deep uppercase italic sm:text-base">{blessings.title}</p>
       </Reveal>
 
-      {/* Couple Announcement with Diamond Ring */}
-      <div className="mt-3 flex w-full max-w-xl flex-col items-center px-2">
-        <SplitText
-          chars={opening.bride.name.toUpperCase()}
-          label={opening.bride.name}
-          delay={600}
-          className="font-heading text-lg sm:text-2xl lg:text-3xl font-bold tracking-[0.08em] sm:tracking-[0.12em] text-crimson leading-snug text-center"
-        />
-        <Reveal delay={850} className="mt-1 text-center">
-          <p className="font-body text-xs tracking-wider text-teal-deep uppercase sm:text-sm">
-            <span className="font-semibold text-rust">{opening.bride.relation}</span> {opening.bride.parents}
-          </p>
-          <p className="text-[11px] tracking-widest text-teal-deep/80 uppercase sm:text-xs">
-            {opening.bride.residence}
-          </p>
-        </Reveal>
-
-        {/* Golden Diamond Ring Icon */}
-        <Reveal delay={1050} className="my-2">
-          <div className="flex items-center gap-3">
-            <span className="h-px w-10 bg-gold/60 sm:w-16" />
-            <img
-              src={img('ring.webp')}
-              alt="Engagement Ring"
-              className="size-7 drop-shadow-md sm:size-9"
-            />
-            <span className="h-px w-10 bg-gold/60 sm:w-16" />
-          </div>
-        </Reveal>
-
-        <SplitText
-          chars={opening.groom.name.toUpperCase()}
-          label={opening.groom.name}
-          delay={1200}
-          className="font-heading text-lg sm:text-2xl lg:text-3xl font-bold tracking-[0.08em] sm:tracking-[0.12em] text-crimson leading-snug text-center"
-        />
-        <Reveal delay={1450} className="mt-1 text-center">
-          <p className="font-body text-xs tracking-wider text-teal-deep uppercase sm:text-sm">
-            <span className="font-semibold text-rust">{opening.groom.relation}</span> {opening.groom.parents}
-          </p>
-          <p className="text-[11px] tracking-widest text-teal-deep/80 uppercase sm:text-xs">
-            {opening.groom.residence}
-          </p>
-        </Reveal>
+      <div className="mt-5 flex flex-col items-center gap-5">
+        {blessings.couples.map(([a, b], i) => (
+          <Reveal key={a} delay={650 + i * 200}>
+            <p className="text-base font-semibold text-crimson sm:text-xl lg:text-2xl">{a} &amp;</p>
+            <p className="text-base font-semibold text-crimson sm:text-xl lg:text-2xl">{b}</p>
+          </Reveal>
+        ))}
       </div>
 
-      {/* Date & Venue Badge */}
-      <Reveal delay={1700} className="mt-4 rounded-sm border border-gold/50 bg-paper/90 px-4 py-2 sm:px-5 sm:py-2.5 shadow-sm text-center">
-        <p className="font-heading text-xs font-semibold tracking-[0.14em] text-rust uppercase sm:text-sm">
-          {opening.dateSummary} · {opening.timeSummary}
-        </p>
-        <p className="mt-0.5 font-body text-[11px] tracking-[0.12em] text-teal-deep uppercase sm:text-xs">
-          {opening.venueSummary}
-        </p>
-      </Reveal>
-
-      {/* Scroll indicator prompt */}
-      <Reveal delay={1950} className="mt-4 sm:mt-5 flex flex-col items-center text-teal-deep/70">
-        <span className="font-heading text-[10px] tracking-[0.25em] uppercase sm:text-xs">Scroll to explore</span>
-        <svg className="mt-1 size-4 animate-bounce text-rust" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <Reveal delay={1200} className="mt-8 flex flex-col items-center justify-center text-center text-teal-deep/70">
+        <span className="inline-block pl-[0.3em] text-[10px] tracking-[0.3em] uppercase sm:text-xs">Scroll to explore</span>
+        <svg className="mt-1.5 size-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
       </Reveal>

@@ -9,6 +9,37 @@ const INK = [
   { src: img('ink-1.webp'), className: 'left-[10%] bottom-[-15%] w-[90%] sm:w-[55%] rotate-90', delay: 240 },
 ]
 
+const AMBIENT_PETALS = Array.from({ length: 12 }, (_, i) => {
+  const r = (k) => {
+    const x = Math.sin((i + 1) * 12.9898 + 42 * 78.233 + k * 37.719) * 43758.5453
+    return x - Math.floor(x)
+  }
+  return { x: r(1), y: r(2), s: r(3), d: r(4) }
+})
+
+function DefaultDecor() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+      {AMBIENT_PETALS.map((p, i) => (
+        <span
+          key={i}
+          className="decor-petal absolute block rounded-[60%_0_60%_0] bg-[#e69123]/70"
+          style={{
+            left: `${p.x * 100}%`,
+            top: '-5%',
+            width: `${10 + p.s * 10}px`,
+            height: `${10 + p.s * 10}px`,
+            opacity: 0.75,
+            animationDuration: `${9 + p.d * 7}s`,
+            animationDelay: `${p.y * 8}s`,
+            '--drift': `${(p.x - 0.5) * 160}px`,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
 // One "page" of the invitation: paper, block-print frame, hanging garland
 // top-left and the peacock bottom-left, as in the PDF.
 export default function Card({ id, label, children, peacock = true, className = '', theme, decor, cornerMantra }) {
@@ -31,11 +62,11 @@ export default function Card({ id, label, children, peacock = true, className = 
         }
       >
         {cornerMantra && (
-          <div className="pointer-events-none absolute top-3 right-4 z-20 font-devanagari text-[11px] font-semibold tracking-wider text-(--accent,var(--color-rust)) select-none sm:top-5 sm:right-8 sm:text-sm md:text-base">
+          <div className="pointer-events-none absolute top-4 right-5 z-20 text-xs font-semibold tracking-wider sm:text-sm text-(--accent,var(--color-rust)) select-none sm:top-6 sm:right-8">
             {cornerMantra}
           </div>
         )}
-        {decor && <div className="absolute inset-0 z-[5] overflow-hidden">{decor}</div>}
+        <div className="absolute inset-0 z-[5]">{decor || <DefaultDecor />}</div>
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
           {INK.map((ink, i) => (
             <img
@@ -56,17 +87,15 @@ export default function Card({ id, label, children, peacock = true, className = 
             src={img('peacock.webp')}
             alt=""
             aria-hidden="true"
-            className="card-peacock pointer-events-none absolute bottom-[calc(-1*var(--bw))] left-[calc(-1*var(--bw))] z-10 w-[42%] max-w-[280px] select-none sm:w-[44%] sm:max-w-[380px] lg:w-[31%] lg:max-w-[460px]"
+            className="card-peacock pointer-events-none absolute bottom-[calc(-1*var(--bw))] left-[calc(-1*var(--bw))] z-10 w-[55%] max-w-[460px] select-none sm:w-[44%] lg:w-[31%]"
           />
         )}
 
         <CardContext.Provider value={since}>
           <div
-            className={`relative z-20 flex flex-1 flex-col items-center justify-start px-4 pt-16 pb-20 text-center sm:justify-center sm:px-10 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28 ${className}`}
+            className={`relative z-20 flex flex-1 flex-col items-center justify-center px-4 pt-14 pb-16 text-center sm:px-10 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 ${className}`}
           >
-            <div className="flex w-full max-w-3xl flex-col items-center sm:my-auto">
-              {children}
-            </div>
+            {children}
           </div>
         </CardContext.Provider>
       </div>

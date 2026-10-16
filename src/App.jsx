@@ -5,18 +5,16 @@ import MusicPlayer from './components/MusicPlayer'
 import NavDots from './components/NavDots'
 import { GateContext, prefersReducedMotion } from './components/motion'
 import { events } from './data/content'
-import Description from './sections/Description'
+import Closing from './sections/Closing'
 import EventPage from './sections/EventPage'
-import Family from './sections/Family'
 import Ganesh from './sections/Ganesh'
 import Monogram from './sections/Monogram'
 
 const sections = [
-  { id: 'ganesh', label: 'Shri Ganesh' },
-  { id: 'monogram', label: 'Shiva & Sankalp' },
-  { id: 'union', label: 'Two Souls' },
+  { id: 'ganesh', label: 'Shree Ganeshay Namah' },
+  { id: 'invitation', label: 'Sankalp & Shalini' },
   ...events.map((e) => ({ id: e.id, label: e.title })),
-  { id: 'family', label: 'The Family' },
+  { id: 'rsvp', label: 'RSVP' },
 ]
 
 export default function App() {
@@ -54,13 +52,12 @@ export default function App() {
         <NavDots items={sections} />
         <Ganesh />
         <Monogram />
-        <Description />
         {events.map((e) => (
           <EventPage key={e.id} event={e} />
         ))}
-        <Family />
-        <footer className="py-6 text-center text-xs tracking-[0.3em] text-paper/90 uppercase">
-          Dr. Shiva Shalini & Dr. Sankalp Shashwat · Engagement 2026
+        <Closing />
+        <footer className="py-6 text-center text-xs tracking-[0.25em] text-paper/90 uppercase">
+          #SankalpWedsShalini · Ramada Resort &amp; Spa, Udaipur · December 2026
         </footer>
       </main>
     </GateContext.Provider>

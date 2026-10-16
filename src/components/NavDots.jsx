@@ -27,12 +27,12 @@ export default function NavDots({ items }) {
               aria-current={active === id ? 'true' : undefined}
               className="group flex items-center justify-end gap-2 p-1"
             >
-              <span className="hidden rounded-sm bg-paper/95 px-2.5 py-1 font-heading text-[11px] tracking-wider text-rust uppercase opacity-0 shadow-md transition group-hover:opacity-100 lg:block border border-gold/40">
+              <span className="hidden rounded-sm bg-paper/90 px-2 py-0.5 text-xs tracking-widest text-teal-deep uppercase opacity-0 shadow transition group-hover:opacity-100 lg:block">
                 {label}
               </span>
               <span
                 className={`block size-2.5 rotate-45 border transition ${
-                  active === id ? 'scale-125 border-paper bg-gold shadow-[0_0_8px_rgba(201,151,56,0.6)]' : 'border-rust/60 bg-paper/90'
+                  active === id ? 'scale-125 border-paper bg-gold' : 'border-teal-deep bg-paper/80'
                 }`}
               />
             </a>

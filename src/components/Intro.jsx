@@ -28,14 +28,15 @@ const inOutCubic = (p) => (p < 0.5 ? 4 * p ** 3 : 1 - (-2 * p + 2) ** 3 / 2)
 
 const SITE_IMAGES = [
   'paper.webp', 'frame.webp', 'logo.webp', 'garland.webp', 'marigold.webp', 'peacock.webp',
-  'ink-1.webp', 'ink-2.webp', 'ampersand.webp', 'ganesh.png', 'ring.webp',
-  ...['lotus', 'agni', 'waves', 'north-star', 'infinity', 'knot', 'sun-moon'].map((n) => `icon-${n}.png`),
+  'ink-1.webp', 'ink-2.webp', 'ampersand.webp',
+  ...['lotus', 'agni', 'waves', 'infinity', 'knot'].map((n) => `icon-${n}.png`),
 ]
 
-const WINE = '#741829'
-const WINE_DARK = '#57101c'
-const WINE_LIGHT = '#8c2234'
-const LINER = '#f6eedc'
+// Deep maroon envelope with a gold-cream lining (classic Indian wedding palette)
+const OLIVE = '#7a1f2e'
+const OLIVE_DARK = '#661725'
+const OLIVE_LIGHT = '#8e2b3b'
+const LINER = '#f0dfb2'
 
 // Deterministic flower flight paths
 const FLOWERS = Array.from({ length: 11 }, (_, i) => {
@@ -240,20 +241,24 @@ export default function Intro({ onOpen, onDone }) {
             className="group flex flex-col items-center gap-5 disabled:cursor-wait"
           >
             <span
-              className={`grid size-24 place-items-center rounded-full shadow-[0_4px_12px_rgba(50,10,15,0.45),inset_0_-3px_6px_rgba(100,60,10,0.45),inset_0_3px_5px_rgba(255,255,255,0.75)] transition group-enabled:group-hover:scale-105 sm:size-28 ${
+              className={`grid size-24 place-items-center rounded-full shadow-[0_3px_8px_rgba(60,50,20,0.3),inset_0_-3px_6px_rgba(120,110,80,0.35),inset_0_3px_5px_rgba(255,255,255,0.7)] transition group-enabled:group-hover:scale-105 sm:size-28 ${
                 phase === 'loading' ? 'intro-loader' : 'intro-ready'
               }`}
-              style={{ background: 'radial-gradient(circle at 40% 35%, #fff4d2, #dbb059 70%, #9e7323)' }}
+              style={{ background: 'radial-gradient(circle at 40% 35%, #f6f2e4, #ddd5bd 70%, #c9bf9f)' }}
             >
               {phase === 'loading' ? (
-                <span lang="sa" className="font-devanagari text-4xl font-bold text-[#741829]">
-                  ॐ
+                <span lang="gu" className="font-gujarati text-4xl font-bold text-rust/80">
+                  શ્રી
                 </span>
               ) : (
-                <img src={img('logo.webp')} alt="" className="w-[84%] drop-shadow-sm" />
+                <img
+                  src={img('logo.webp')}
+                  alt=""
+                  className="max-h-[78%] max-w-[78%] object-contain opacity-90"
+                />
               )}
             </span>
-            <span className="text-xs font-semibold tracking-[0.35em] text-[#741829] uppercase sm:text-sm">
+            <span className="text-xs tracking-[0.35em] text-teal-deep uppercase sm:text-sm pl-[0.35em]">
               {phase === 'loading' ? 'Opening your invitation…' : 'Tap to open'}
             </span>
           </button>
@@ -269,18 +274,16 @@ export default function Intro({ onOpen, onDone }) {
       {/* Envelope parts share one transform; separate layers let the card slot between them */}
       <div ref={refs.flap} className="absolute top-1/2 left-1/2" style={{ perspective: '900px', zIndex: 5 }}>
         <div ref={refs.flapInner} className="h-full w-full" style={{ transformOrigin: '50% 0', transformStyle: 'preserve-3d' }}>
-          <svg viewBox="0 0 100 66" preserveAspectRatio="none" className="h-full w-full overflow-visible drop-shadow-[0_4px_5px_rgba(40,10,15,0.35)]">
-            <path d="M0 0 H100 L53 37 Q50 39.5 47 37 Z" fill={WINE_LIGHT} />
-            <path d="M0 0 L53 37 Q50 39.5 47 37 L100 0" fill="none" stroke="#d4af37" strokeWidth="0.4" strokeOpacity="0.85" />
+          <svg viewBox="0 0 100 66" preserveAspectRatio="none" className="h-full w-full overflow-visible drop-shadow-[0_3px_3px_rgba(40,50,10,0.25)]">
+            <path d="M0 0 H100 L53 37 Q50 39.5 47 37 Z" fill={OLIVE_LIGHT} />
           </svg>
         </div>
       </div>
 
-      <div ref={refs.back} className="absolute top-1/2 left-1/2 z-[2] drop-shadow-[0_18px_24px_rgba(40,10,15,0.38)]">
+      <div ref={refs.back} className="absolute top-1/2 left-1/2 z-[2] drop-shadow-[0_18px_22px_rgba(50,45,20,0.28)]">
         <svg viewBox="0 0 100 66" preserveAspectRatio="none" className="h-full w-full">
-          <rect width="100" height="66" rx="1.5" fill={WINE} />
+          <rect width="100" height="66" rx="1.5" fill={OLIVE} />
           <path d="M1.5 1.5 H98.5 L50 34 Z" fill={LINER} />
-          <path d="M1.5 1.5 H98.5 L50 34 Z" fill="none" stroke="#d4af37" strokeWidth="0.3" strokeOpacity="0.5" />
         </svg>
       </div>
 
@@ -291,11 +294,11 @@ export default function Intro({ onOpen, onDone }) {
               <image href={img('paper.webp')} width="60" height="66" preserveAspectRatio="xMidYMid slice" />
             </pattern>
           </defs>
-          <path d="M0 0 L50 37 L0 66 Z" fill={WINE_DARK} />
-          <path d="M100 0 L50 37 L100 66 Z" fill={WINE_DARK} />
-          <path d="M0 66 L48 33.5 Q50 32 52 33.5 L100 66 Z" fill={WINE} />
-          <path d="M0 66 L48 33.5 Q50 32 52 33.5 L100 66" fill="none" stroke="#d4af37" strokeWidth="0.4" strokeOpacity="0.85" />
-          <rect width="100" height="66" fill="url(#env-tex)" style={{ mixBlendMode: 'multiply' }} opacity="0.25" />
+          <path d="M0 0 L50 37 L0 66 Z" fill={OLIVE_DARK} />
+          <path d="M100 0 L50 37 L100 66 Z" fill={OLIVE_DARK} />
+          <path d="M0 66 L48 33.5 Q50 32 52 33.5 L100 66 Z" fill={OLIVE} />
+          <path d="M0 66 L48 33.5 Q50 32 52 33.5 L100 66" fill="none" stroke="#45101a" strokeWidth="0.35" strokeOpacity="0.6" />
+          <rect width="100" height="66" fill="url(#env-tex)" style={{ mixBlendMode: 'multiply' }} opacity="0.35" />
         </svg>
       </div>
 
@@ -303,16 +306,16 @@ export default function Intro({ onOpen, onDone }) {
         {/* sits on the flap tip */}
         <div className="absolute top-[57%] left-1/2 aspect-square w-[21%] -translate-x-1/2 -translate-y-1/2">
           <div
-            className="grid h-full w-full place-items-center rounded-full shadow-[0_4px_8px_rgba(50,10,15,0.45),inset_0_-3px_6px_rgba(100,60,10,0.45),inset_0_3px_5px_rgba(255,255,255,0.75)]"
-            style={{ background: 'radial-gradient(circle at 40% 35%, #fff4d2, #dbb059 70%, #9e7323)' }}
+            className="grid h-full w-full place-items-center rounded-full shadow-[0_3px_6px_rgba(60,50,20,0.35),inset_0_-3px_6px_rgba(120,110,80,0.35),inset_0_3px_5px_rgba(255,255,255,0.7)]"
+            style={{ background: 'radial-gradient(circle at 40% 35%, #f6f2e4, #ddd5bd 70%, #c9bf9f)' }}
           >
-            <img src={img('logo.webp')} alt="" className="w-[84%] drop-shadow-sm" />
+            <img src={img('logo.webp')} alt="" className="max-h-[78%] max-w-[78%] object-contain opacity-90" />
           </div>
         </div>
       </div>
 
       <div ref={refs.card} className="card-frame absolute top-1/2 left-1/2 grid place-items-center" style={{ opacity: 0 }}>
-        <img src={img('logo.webp')} alt="" className="w-[min(65%,24rem)] drop-shadow-md" />
+        <img src={img('logo.webp')} alt="" className="h-[72%] w-auto max-w-[80%] object-contain" />
       </div>
 
       {FLOWERS.map((_, i) => (
@@ -336,7 +339,7 @@ export default function Intro({ onOpen, onDone }) {
             onDone()
           }
         }}
-        className="absolute right-4 bottom-4 z-[9] border border-gold/70 bg-paper/90 px-4 py-1.5 text-xs font-semibold tracking-[0.3em] text-[#741829] uppercase backdrop-blur-sm transition hover:bg-[#741829] hover:text-paper sm:right-6 sm:bottom-6"
+        className="absolute right-4 bottom-4 z-[9] border border-teal-deep/60 bg-paper/80 px-4 py-1.5 text-xs tracking-[0.3em] text-teal-deep uppercase backdrop-blur-sm transition hover:bg-teal-deep hover:text-paper sm:right-6 sm:bottom-6"
       >
         Skip
       </button>

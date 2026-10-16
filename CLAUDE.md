@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-A single-page wedding invitation site ("Saptabandhan", for Yatin & Prarthana), built with React 19, Vite and Tailwind CSS v4. Tailwind runs through `@tailwindcss/vite`; there is no `tailwind.config` file, and all theme tokens are in `@theme` in `src/index.css`. Smooth scrolling comes from Lenis. There is no router, no test suite and no linter.
+A single-page wedding invitation site (Wedding invitation for Sankalp & Shalini), built with React 19, Vite and Tailwind CSS v4. Tailwind runs through `@tailwindcss/vite`; there is no `tailwind.config` file, and all theme tokens are in `@theme` in `src/index.css`. Smooth scrolling comes from Lenis. There is no router, no test suite and no linter.
 
 The source material lives in the parent folder (`../`):
 - `all event invite.docx`: the full event list. It is the source of truth for wording, dates, timings, dress codes and venues.

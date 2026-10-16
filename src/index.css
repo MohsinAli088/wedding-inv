@@ -3,18 +3,16 @@
 
 /* Palette and type sampled from "Save the date PDF.pdf" */
 @theme {
-  --color-rust: #8b2333;
-  --color-crimson: #741829;
-  --color-teal-deep: #561c27;
-  --color-wine: #741829;
-  --color-ink: #2b1812;
-  --color-paper: #f8f3ea;
-  --color-gold: #c99738;
-  --color-gold-light: #f3dfa2;
+  --color-rust: #b54226;
+  --color-crimson: #b22d2f;
+  --color-teal-deep: #01424e;
+  --color-ink: #321d0f;
+  --color-paper: #f7f2e8;
+  --color-gold: #f4b946;
 
-  --font-serif: 'Cormorant Garamond', 'Crimson Pro', Georgia, serif;
-  --font-heading: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
-  --font-devanagari: 'Noto Serif Devanagari', serif;
+  --font-serif: 'Crimson Pro', 'Minion Pro', Georgia, serif;
+  --font-gujarati: 'Noto Serif Gujarati', 'Crimson Pro', serif;
+  --font-devanagari: 'Noto Serif Devanagari', 'Crimson Pro', serif;
 
   --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -24,7 +22,7 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-[#5a121e] font-serif text-ink antialiased;
+    @apply bg-rust font-serif text-ink antialiased;
     background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1px);
     background-size: 6px 6px;
   }
@@ -159,7 +157,7 @@
 
   .logo-in {
     opacity: 0;
-    transform: scale(0.82) rotate(-12deg);
+    transform: scale(0.88);
     filter: blur(10px);
     transition:
       opacity 1.6s var(--ease-silk),
@@ -239,8 +237,8 @@
 }
 
 @keyframes seal-ready {
-  0%, 100% { box-shadow: 0 4px 10px rgb(50 10 15 / 0.4), 0 0 0 0 rgb(201 151 56 / 0.45); }
-  50% { box-shadow: 0 4px 10px rgb(50 10 15 / 0.4), 0 0 0 14px rgb(201 151 56 / 0); }
+  0%, 100% { box-shadow: 0 3px 8px rgb(60 50 20 / 0.3), 0 0 0 0 rgb(181 66 38 / 0.35); }
+  50% { box-shadow: 0 3px 8px rgb(60 50 20 / 0.3), 0 0 0 14px rgb(181 66 38 / 0); }
 }
 
 @keyframes seal-pulse {
@@ -283,15 +281,14 @@
   100% { opacity: 0; transform: translate3d(calc(var(--drift, 40px) * -0.5), 120vh, 0) rotate(360deg); }
 }
 
-@utility tracking-name {
+@utility tracking-name-sm {
   letter-spacing: 0.16em;
-  margin-right: -0.16em; /* keep spaced caps optically centred */
+  margin-right: -0.16em;
 }
-@utility font-heading {
-  font-family: var(--font-heading);
-}
-@utility font-devanagari {
-  font-family: var(--font-devanagari);
+
+@utility tracking-name {
+  letter-spacing: 0.42em;
+  margin-right: -0.42em; /* keep spaced caps optically centred */
 }
 
 @keyframes sway {

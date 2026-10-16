@@ -6,13 +6,13 @@ import { img } from '../asset'
 
 // Colours per theme, exposed to the page as CSS variables
 export const THEMES = {
-  forest: { accent: '#3f6b2a', accent2: '#8b2333', ink: '#2b1812' },
-  rajputana: { accent: '#741829', accent2: '#c99738', ink: '#2b1812' },
-  mughal: { accent: '#8c2435', accent2: '#741829', ink: '#2b1812' },
-  temple: { accent: '#8b2333', accent2: '#c99738', ink: '#2b1812' },
-  village: { accent: '#6b4f9a', accent2: '#8b2333', ink: '#2b1812' },
+  forest: { accent: '#3f6b2a', accent2: '#b54226', ink: '#321d0f' },
+  rajputana: { accent: '#8c1d2f', accent2: '#b07a1f', ink: '#321d0f' },
+  mughal: { accent: '#a8325f', accent2: '#01424e', ink: '#321d0f' },
+  temple: { accent: '#b54226', accent2: '#a86d08', ink: '#321d0f' },
+  village: { accent: '#6b4f9a', accent2: '#2f7f79', ink: '#321d0f' },
   golden: { accent: '#e8c26a', accent2: '#c9d6ff', ink: '#f3ead6', night: true },
-  eternity: { accent: '#741829', accent2: '#c99738', ink: '#2b1812' },
+  eternity: { accent: '#b22d2f', accent2: '#a8741a', ink: '#321d0f' },
 }
 
 // Cusped (multi-foil) arch used for Rajput jharokhas and Mughal gateways
@@ -137,6 +137,46 @@ function Rays({ className = '' }) {
   )
 }
 
+function Sun({ className = '' }) {
+  return (
+    <div className={`relative ${className}`} aria-hidden="true">
+      <div className="absolute -inset-3 rounded-full bg-amber-400/25 blur-lg animate-pulse" />
+      <svg viewBox="0 0 100 100" className="size-full overflow-visible drop-shadow-[0_0_16px_rgba(244,185,70,0.65)]">
+        <defs>
+          <radialGradient id="decor-sun-grad" cx="40%" cy="40%" r="60%">
+            <stop offset="0%" stopColor="#fff8e7" />
+            <stop offset="50%" stopColor="#f5c242" />
+            <stop offset="100%" stopColor="#d97706" />
+          </radialGradient>
+        </defs>
+        {/* Sun center */}
+        <circle cx="50" cy="50" r="18" fill="url(#decor-sun-grad)" />
+        <circle cx="50" cy="50" r="18" fill="none" stroke="#fff3b0" strokeWidth="0.8" opacity="0.6" />
+        {/* Rotating Sun rays */}
+        <g className="decor-spin" style={{ transformOrigin: '50px 50px' }}>
+          {Array.from({ length: 16 }, (_, i) => {
+            const angle = (i * 360) / 16
+            const isLong = i % 2 === 0
+            return (
+              <line
+                key={i}
+                x1="50"
+                y1={isLong ? 26 : 29}
+                x2="50"
+                y2={isLong ? 12 : 19}
+                stroke="#f5c242"
+                strokeWidth={isLong ? 2.4 : 1.5}
+                strokeLinecap="round"
+                transform={`rotate(${angle} 50 50)`}
+              />
+            )
+          })}
+        </g>
+      </svg>
+    </div>
+  )
+}
+
 function Leaf({ className = '', style }) {
   return (
     <svg viewBox="0 0 40 60" className={className} style={style} aria-hidden="true">
@@ -182,7 +222,22 @@ export default function ThemeDecor({ theme }) {
     case 'rajputana':
       return (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <Arch className="decor-draw absolute top-[3%] left-1/2 w-[92%] max-w-[620px] -translate-x-1/2 text-[#b07a1f] opacity-30" />
+          {PETALS.map((p, i) => (
+            <span
+              key={i}
+              className="decor-petal absolute block rounded-[60%_0_60%_0] bg-[#a82435]"
+              style={{
+                left: `${p.x * 100}%`,
+                top: '-5%',
+                width: `${10 + p.s * 10}px`,
+                height: `${10 + p.s * 10}px`,
+                opacity: 0.75,
+                animationDuration: `${9 + p.d * 7}s`,
+                animationDelay: `${p.y * 8}s`,
+                '--drift': `${(p.x - 0.5) * 160}px`,
+              }}
+            />
+          ))}
           <div className="absolute right-[4%] bottom-[3%] flex items-end gap-2 sm:right-[6%]">
             <Diya className="w-10 sm:w-14" />
             <Diya className="w-12 sm:w-16" delay={300} />
@@ -193,7 +248,6 @@ export default function ThemeDecor({ theme }) {
     case 'mughal':
       return (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <Arch className="decor-draw absolute top-[3%] left-1/2 w-[92%] max-w-[620px] -translate-x-1/2 text-[#a8325f] opacity-25" />
           {PETALS.map((p, i) => (
             <span
               key={i}
@@ -216,7 +270,22 @@ export default function ThemeDecor({ theme }) {
     case 'temple':
       return (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <Temple className="absolute top-[3%] left-1/2 w-40 -translate-x-1/2 text-[#a86d08] opacity-20 sm:w-56" />
+          {PETALS.map((p, i) => (
+            <span
+              key={i}
+              className="decor-petal absolute block rounded-[60%_0_60%_0] bg-[#e69123]"
+              style={{
+                left: `${p.x * 100}%`,
+                top: '-5%',
+                width: `${10 + p.s * 10}px`,
+                height: `${10 + p.s * 10}px`,
+                opacity: 0.75,
+                animationDuration: `${9 + p.d * 7}s`,
+                animationDelay: `${p.y * 8}s`,
+                '--drift': `${(p.x - 0.5) * 160}px`,
+              }}
+            />
+          ))}
           <div className="absolute top-0 right-[8%] flex gap-4 sm:right-[10%] sm:gap-8">
             <Bell className="w-6 sm:w-8" length={50} />
             <Bell className="w-8 sm:w-10" length={90} delay={400} />
@@ -231,6 +300,22 @@ export default function ThemeDecor({ theme }) {
       return (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <Bunting className="absolute top-0 right-0 h-12 w-[70%] sm:h-16" />
+          {PETALS.map((p, i) => (
+            <span
+              key={i}
+              className="decor-petal absolute block rounded-[60%_0_60%_0] bg-[#f59e0b]"
+              style={{
+                left: `${p.x * 100}%`,
+                top: '-5%',
+                width: `${10 + p.s * 10}px`,
+                height: `${10 + p.s * 10}px`,
+                opacity: 0.8,
+                animationDuration: `${9 + p.d * 7}s`,
+                animationDelay: `${p.y * 8}s`,
+                '--drift': `${(p.x - 0.5) * 160}px`,
+              }}
+            />
+          ))}
           <FerrisWheel className="absolute right-[3%] bottom-[2%] h-32 w-28 opacity-70 sm:h-48 sm:w-44" />
         </div>
       )
