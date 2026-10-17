@@ -62,13 +62,13 @@ export default function Monogram() {
       </Reveal>
 
       <div className="mt-5 flex flex-col items-center">
-        <Person p={invitation.groom} delay={1500} nameDelay={900} />
+        <Person p={invitation.bride} delay={1500} nameDelay={900} />
         <Reveal delay={1700} className="my-3">
           <Divider className="text-rust" />
           <p className="my-1 text-xl font-semibold tracking-[0.3em] text-rust uppercase sm:text-2xl">{invitation.weds}</p>
           <Divider className="text-rust" />
         </Reveal>
-        <Person p={invitation.bride} delay={2900} nameDelay={2200} />
+        <Person p={invitation.groom} delay={2900} nameDelay={2200} />
       </div>
       <Reveal delay={3300} className="mt-5 max-w-md">
         <p className="text-xs tracking-wider text-teal-deep uppercase italic sm:text-sm">{couple.tagline}</p>

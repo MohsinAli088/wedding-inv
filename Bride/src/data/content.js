@@ -25,14 +25,25 @@ export const mantra = {
 export const blessings = {
   title: 'with the blessings of',
   couples: [
+    ['Late Shrimati Saroj Devi', 'Late Shri Paramanand Singh'],
     ['Late Shrimati Manorma Singh', 'Late Shri Bachchan Singh'],
-    ['Late Shrimati Saroj Singh', 'Late Shri Paramanand Singh'],
   ],
 }
 
 // PAGE 2: the invitation
 export const invitation = {
   lead: 'You are cordially invited to the wedding ceremony of',
+  bride: {
+    name: 'Dr. Shiva Shalini',
+    relation: 'D/O',
+    parents: ['Smt. Sangeeta Singh &', 'Shri Samrendra Kumar Singh'],
+    family: [
+      { relation: 'Brother', name: 'Swet Saurabh' },
+      { relation: 'Sister-in-law', name: 'Payal' },
+      { relation: 'Niece', name: 'Shivanshi' },
+    ],
+  },
+  weds: 'Weds',
   groom: {
     name: 'Dr. Sankalp Shashwat',
     relation: 'S/O',
@@ -40,17 +51,6 @@ export const invitation = {
     family: [
       { relation: 'Brother', name: 'Sharad Pratap Singh' },
       { relation: 'Sister', name: 'Dr. Ayushi Anushka' },
-    ],
-  },
-  weds: 'Weds',
-  bride: {
-    name: 'Dr. Shiva Shalini',
-    relation: 'D/O',
-    parents: ['Smt. Sangeeta Singh &', 'Shri Samrendra Kumar Singh'],
-    family: [
-      { relation: 'Brother', name: 'Swet Saurabh' },
-      { relation: 'Sister-in-law', name: 'Payal Kumari' },
-      { relation: 'Niece', name: 'Shivangi' },
     ],
   },
 }
@@ -180,6 +180,14 @@ export const closing = {
   thanks: 'Your presence will make our celebration complete.',
   family: {
     title: 'With Warm Regards & Best Compliments',
+    brideSide: {
+      title: "Bride's Family",
+      members: [
+        { relation: 'Brother', name: 'Swet Saurabh' },
+        { relation: 'Sister-in-law', name: 'Payal' },
+        { relation: 'Niece', name: 'Shivanshi' },
+      ],
+    },
     groomSide: {
       title: "Groom's Family",
       members: [
@@ -187,19 +195,19 @@ export const closing = {
         { relation: 'Sister', name: 'Dr. Ayushi Anushka' },
       ],
     },
-    brideSide: {
-      title: "Bride's Family",
-      members: [
-        { relation: 'Brother', name: 'Swet Saurabh' },
-        { relation: 'Sister-in-law', name: 'Payal Kumari' },
-        { relation: 'Niece', name: 'Shivangi' },
-      ],
-    },
   },
   rsvpTitle: 'RSVP / Contact',
   contacts: [
-    { name: "Groom's Family", phone: '+91 97921 65333' },
-    { name: "Bride's Family", phone: '+91 91234 56789' },
+    {
+      name: "Bride's Family",
+      phone: '+91 79030 64807',
+      phones: ['+91 79030 64807', '+91 83106 77557'],
+    },
+    {
+      name: "Groom's Family",
+      phone: '+91 97921 65333',
+      phones: ['+91 97921 65333'],
+    },
   ],
   venue: {
     title: 'Wedding Venue',
