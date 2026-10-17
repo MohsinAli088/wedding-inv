@@ -38,6 +38,7 @@ export const invitation = {
     relation: 'S/O',
     parents: ['Smt. Vimla Singh &', 'Dr. Jitendra Pratap Singh'],
     family: [
+      { relation: 'Brother', name: 'Sharad Pratap Singh' },
       { relation: 'Sister', name: 'Dr. Ayushi Anushka' },
     ],
   },
@@ -182,6 +183,7 @@ export const closing = {
     groomSide: {
       title: "Groom's Family",
       members: [
+        { relation: 'Brother', name: 'Sharad Pratap Singh' },
         { relation: 'Sister', name: 'Dr. Ayushi Anushka' },
       ],
     },
@@ -196,7 +198,7 @@ export const closing = {
   },
   rsvpTitle: 'RSVP / Contact',
   contacts: [
-    { name: "Groom's Family", phone: '+91 98765 43210' },
+    { name: "Groom's Family", phone: '+91 97921 65333' },
     { name: "Bride's Family", phone: '+91 91234 56789' },
   ],
   venue: {
