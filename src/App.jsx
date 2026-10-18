@@ -57,7 +57,7 @@ export default function App() {
         ))}
         <Closing />
         <footer className="py-6 text-center text-xs tracking-[0.25em] text-paper/90 uppercase">
-          #SankalpWedsShalini · Ramada Resort &amp; Spa, Udaipur · December 2026
+          #SankalpWedsShiva · Ramada Resort &amp; Spa, Udaipur · December 2026
         </footer>
       </main>
     </GateContext.Provider>
