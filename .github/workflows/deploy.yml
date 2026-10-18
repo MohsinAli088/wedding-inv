@@ -23,16 +23,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: Bride/package-lock.json
       - run: npm ci
-        working-directory: Bride
       - run: npm run build
-        working-directory: Bride
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: Bride/dist
+          path: dist
 
   deploy:
     needs: build
