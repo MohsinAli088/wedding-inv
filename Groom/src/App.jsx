@@ -12,7 +12,7 @@ import Monogram from './sections/Monogram'
 
 const sections = [
   { id: 'ganesh', label: 'Shree Ganeshay Namah' },
-  { id: 'invitation', label: 'Sankalp & Shalini' },
+  { id: 'invitation', label: 'Sankalp & Shiva' },
   ...events.map((e) => ({ id: e.id, label: e.title })),
   { id: 'rsvp', label: 'RSVP' },
 ]

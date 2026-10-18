@@ -50,7 +50,7 @@ export const invitation = {
     family: [
       { relation: 'Brother', name: 'Swet Saurabh' },
       { relation: 'Sister-in-law', name: 'Payal' },
-      { relation: 'Niece', name: 'Shivanshi' },
+      { relation: 'Niece', name: 'Shivangi' },
     ],
   },
 }
@@ -192,7 +192,7 @@ export const closing = {
       members: [
         { relation: 'Brother', name: 'Swet Saurabh' },
         { relation: 'Sister-in-law', name: 'Payal' },
-        { relation: 'Niece', name: 'Shivanshi' },
+        { relation: 'Niece', name: 'Shivangi' },
       ],
     },
   },

@@ -14,7 +14,7 @@ function Logo() {
     <div ref={ref} className="animate-float flex justify-center">
       <img
         src={img('logo.webp')}
-        alt="Sankalp and Shalini monogram"
+        alt="Sankalp and Shiva monogram"
         className={`logo-in mx-auto h-36 w-auto sm:h-48 lg:h-56 ${inView && cardSince > 0 ? 'is-visible' : ''}`}
         style={{ transitionDelay: `${INK_LEAD_MS}ms` }}
       />
